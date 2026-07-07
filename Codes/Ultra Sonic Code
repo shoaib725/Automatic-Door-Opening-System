@@ -1,0 +1,30 @@
+#include <Servo.h> #include <Wire.h>
+#include <Adafruit_GFX.h> #include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); Servo doorServo;
+
+const int trigPin = 8; const int echoPin = 7; const int servoPin = 3;
+
+long duration; int distance;
+
+void setup() { pinMode(trigPin, OUTPUT); pinMode(echoPin, INPUT); doorServo.attach(servoPin); doorServo.write(0);
+display.begin(SSD1306_SWITCHCAPVCC, 0x3C); display.clearDisplay();
+}
+
+void loop() { digitalWrite(trigPin, LOW); delayMicroseconds(2); digitalWrite(trigPin, HIGH); delayMicroseconds(10); digitalWrite(trigPin, LOW);
+
+duration = pulseIn(echoPin, HIGH); distance = duration * 0.034 / 2;
+
+display.clearDisplay(); display.setTextSize(2); display.setTextColor(SSD1306_WHITE); display.setCursor(0, 0);
+
+if (distance > 0 && distance < 15) { doorServo.write(90);	// open display.println("Opened ");
+} else {
+doorServo.write(0);	// close display.println("Closed");
+}
+
+display.setCursor(0, 30); display.print("Dist:"); display.print(distance); display.println(" cm");
+
+display.display(); delay(200);
+}
