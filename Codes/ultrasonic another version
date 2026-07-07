@@ -1,0 +1,54 @@
+#include <Servo.h>
+
+Servo doorservo;
+
+long duration;
+int distance;
+
+
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(9,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(7,OUTPUT);
+  
+  doorservo.attach(6);
+  doorservo.write(0);
+  digitalWrite(8,HIGH);
+  digitalWrite(7,LOW);
+}
+void loop(){
+  pinMode(9, OUTPUT);
+  digitalWrite(9,LOW);
+  delayMicroseconds(2);
+  digitalWrite(9,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(9,LOW);
+  
+  
+  pinMode(9,INPUT);
+  duration = pulseIn(9,HIGH);
+  
+  distance = duration * 0.034/2;
+  
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  
+  if(distance > 0 && distance <=20) {
+    doorservo.write(90);
+    digitalWrite(8,LOW);
+    digitalWrite(7,HIGH);
+    delay(5000);
+    
+    doorservo.write(0);
+    digitalWrite(8,HIGH);
+    digitalWrite(7,LOW);
+  }
+  delay(100);
+}
+  
+  
