@@ -1,0 +1,14 @@
+#include <Servo.h> Servo doorServo; const int irPin = 7; const int servoPin = 3; int irState = 0;
+
+void setup() { pinMode(irPin, INPUT); doorServo.attach(servoPin); doorServo.write(0); Serial.begin(9600);
+}
+
+void loop() {
+irState = digitalRead(irPin); // LOW usually = object detected if (irState == LOW) {
+Serial.println("Object detected - Opening door"); doorServo.write(90);
+delay(5000);
+} else {
+Serial.println("No object - Door closed"); doorServo.write(0);
+}
+delay(200);
+}
