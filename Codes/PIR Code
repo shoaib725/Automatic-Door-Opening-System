@@ -1,0 +1,17 @@
+include <Servo.h> Servo doorServo; const int pirPin = 9; const int servoPin = 6; const int redLED = 2;
+const int greenLED = 4;
+
+void setup() { pinMode(pirPin, INPUT);
+pinMode(redLED, OUTPUT); pinMode(greenLED, OUTPUT); doorServo.attach(servoPin); doorServo.write(0); digitalWrite(redLED, HIGH);
+}
+
+void loop() {
+if (digitalRead(pirPin) == HIGH) { doorServo.write(90);	// unlock digitalWrite(greenLED, HIGH); digitalWrite(redLED, LOW
+delay(5000);
+} else
+{
+doorServo.write(0);
+digitalWrite(redLED, HIGH); 
+digitalWrite(greenLED, LOW);
+}
+}
